@@ -4,7 +4,7 @@ There are 4 folders, which individually contain all relative files for each assi
 
 # Assignmnet1
 `Objective`: a predictive model to predict the "price per night" of Airbnb properties in Belgium.  
-`train.csv`: the very first data set given by professor for model training, **NOT cleaned raw data**.
+`train.csv`: the very first data set given by professor for model training, **NOT cleaned raw data**.  
 `test.csv`: the very first data set given by professor  for model test.
 
 
