@@ -48,6 +48,29 @@ train_text["language"] = train_text.apply(lambda x: "German" if any(ch in x["cha
                                             "English")), axis = 1).astype(object)
 train_text.groupby(["language"]).size()
 
+# 匯出使用語言的欄位成CSV
+train_text["language"].to_csv('language.csv', header = True) 
+
+
+# 文字雲
 words = ""
+words_drop = words
 for i in range(0,train_text.shape[0]):
     words = words + " " + train_text["char_features"][i]
+    
+for i in [",", ".", "!"]:
+    words_drop = words_drop.replace(i, " ")
+    
+for i in ["  ", "   "]:
+    words_drop = words_drop.replace(i, " ")
+    
+for i in [" nan ", " la ", " de ", " le ", " et ", " du ", " un ", " en ", "de "]:
+    words_drop = words_drop.replace(i, " ")
+    
+for i in ["brussel", "place", "my", "room"]:
+    words_drop = words_drop.replace(i, "")
+    
+with open("word.txt", 'w', encoding="utf-8") as f:
+    f.write(words)
+with open("word_drop.txt", 'w', encoding="utf-8") as f:
+    f.write(words_drop)
