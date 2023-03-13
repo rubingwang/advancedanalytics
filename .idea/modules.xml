@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/bigdata.iml" filepath="$PROJECT_DIR$/.idea/bigdata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/advancedanalytics.iml" filepath="$PROJECT_DIR$/.idea/advancedanalytics.iml" />
     </modules>
   </component>
 </project>

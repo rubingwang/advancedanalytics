@@ -54,6 +54,33 @@ df['centroid_distance'] = [round(x, 2) for x in centroid_distances]
 print(df.head())
 
 
+import folium
+
+# create a map centered on the mean latitude and longitude
+map_clusters = folium.Map(location=[df['property_lat'].mean(), df['property_lon'].mean()], zoom_start=10)
+
+# add markers for each property, color-coded by cluster label and centroid distance
+for i in range(len(df)):
+    lat, lon, label, distance = df.loc[i, ['property_lat', 'property_lon', 'cluster_label', 'centroid_distance']]
+    color = 'blue' if label==0 else 'green' if label==1 else 'red' if label==2 else 'orange' if label==3 else 'purple' if label==4 else 'darkred' if label==5 else 'lightgray' if label==6 else 'beige' if label==7 else 'darkblue' if label==8 else 'cadetblue'
+    folium.Marker([lat, lon], popup=f'Cluster: {label}, Distance: {distance:.2f} km', icon=folium.Icon(color=color)).add_to(map_clusters)
+
+# add circle markers for each centroid
+for i in range(len(centroid_coords)):
+    lat, lon = centroid_coords[i]
+    label = f'Centroid {i}'
+    folium.CircleMarker([lat, lon], radius=10, popup=label, color='black', fill=True, fill_color='white', fill_opacity=1).add_to(map_clusters)
+
+# save the map to an HTML file
+map_clusters.save('map_clusters.html')
+
+# open the HTML file in a web browser
+import webbrowser
+webbrowser.open('map_clusters.html')
+
+
+
+
 # 将数据转换为类别类型
 df['property_room_type'] = pd.Categorical(df['property_room_type'])
 df['property_type'] = pd.Categorical(df['property_type'])
@@ -72,7 +99,6 @@ df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms
 print(df)
 
 print(df.isna().sum())
-
 
 # 使用 drop() 方法删除 property_rules 列
 df = df.drop(columns=['property_lat', 'property_lon', 'property_rules'], axis=1)
