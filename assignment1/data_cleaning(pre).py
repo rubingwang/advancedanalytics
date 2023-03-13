@@ -6,14 +6,15 @@ col_clean = ['property_id', 'property_rules', 'property_zipcode',
              'property_room_type', 'property_max_guests',
              'property_bathrooms', 'property_bedrooms']
 
+df0 = data[col_clean]
 df = data[col_clean]
 
-print(vars(df))
-print(df.info())
+print(vars(df0))
+print(df0.info())
 
-print(df.isna().sum())
+print(df0.isna().sum())
 
-unique_values = df.apply(lambda x: x.unique())
+unique_values = df0.apply(lambda x: x.unique())
 print(unique_values)
 
 from collections import Counter
