@@ -40,6 +40,7 @@ df['centroid_distance'] = [round(x, 2) for x in centroid_distances]
 
 # Drop rows with NA
 df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
+
 # Drop useless columns
 df = df.drop(columns=['property_rules', 'property_lat', 'property_lon'], axis=1)
 
