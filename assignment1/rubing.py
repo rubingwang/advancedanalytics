@@ -42,10 +42,10 @@ df['centroid_distance'] = [round(x, 2) for x in centroid_distances]
 df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
 
 # Drop useless columns
-df = df.drop(columns=['property_rules', 'property_lat', 'property_lon'], axis=1)
+df = df.drop(columns=['property_rules', 'property_zipcode', 'property_lat', 'property_lon'], axis=1)
 
 print(df.head())
 print(df.isna().sum())
 
 # Save into CSV file
-df.to_csv('data_rubing.csv', index=False)
+df.to_csv('rubing.csv', index=False)
