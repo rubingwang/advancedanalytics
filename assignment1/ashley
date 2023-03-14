@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as st
+from sklearn.impute import KNNImputer
+import missingno as msno
+
+data = pd.read_csv("train.csv")
+
+# 选择第37到45列
+df_selected = data.iloc[:, 46:54]
+df_selected.head()
+
+# review相關變數缺失值一起出現
+msno.matrix(data.sample(250))
+msno.heatmap(data)
+
+# 用中位數填補review相關變數的缺失值；用0填補
+df_selected.fillna(df_selected.median(),inplace=True)
+df_selected["extra"].fillna(False, inplace=True)
+df_selected.isnull().sum()
+
+df_selected['Host Is Superhost'] = df_selected['extra'].str.contains('Host Is Superhost')
+df_selected['Host Has Profile Pic'] = df_selected['extra'].str.contains('Host Has Profile Pic')
+df_selected['Host Identity Verified'] = df_selected['extra'].str.contains('Host Identity Verified')
+df_selected['Is Location Exact'] = df_selected['extra'].str.contains('Is Location Exact')
+df_selected['Instant Bookable'] = df_selected['extra'].str.contains('Instant Bookable')
+df_selected['Require Guest Profile Picture'] = df_selected['extra'].str.contains('Require Guest Profile Picture')
+df_selected['Require Guest Phone Verification'] = df_selected['extra'].str.contains('Require Guest Phone Verification')
+df_selected.describe()
+df_selected.to_csv('ashley_output_file.csv', index=False)
