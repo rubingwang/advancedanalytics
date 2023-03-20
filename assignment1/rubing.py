@@ -1,3 +1,5 @@
+from statistics import mean
+
 import pandas as pd
 from sklearn.cluster import KMeans
 from geopy.distance import geodesic
@@ -40,8 +42,9 @@ def process_data(df):
     # Generate new feature columns 'centroid_distance'
     df['centroid_distance'] = [round(x, 2) for x in centroid_distances]
 
-    # Drop rows with NA
-    df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
+    # Fill NA
+    #df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
+    df[['property_bathrooms', 'property_bedrooms']].fillna(method="backfill")
 
     # Drop useless columns
     df = df.drop(columns=['property_rules', 'property_zipcode', 'property_lat', 'property_lon'], axis=1)
