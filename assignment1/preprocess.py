@@ -106,6 +106,7 @@ train_1 = pd.read_csv('train_1.csv', index_col=("Unnamed: 0"))
 train_2 = pd.read_csv('train_2.csv', index_col=("property_id"))
 train_3 = pd.read_csv('train_3.csv', index_col=("Unnamed: 0"))
 train_4 = pd.read_csv('train_4.csv', index_col=("Unnamed: 0"))
+index_col_train = train_4["property_id"]
 train_4 = train_4.drop(columns = ["property_id"])
 train_5 = pd.read_csv('train_5.csv')
 train_6 = pd.read_csv('train_6.csv', index_col=("property_id"))
@@ -113,17 +114,21 @@ train_6 = pd.read_csv('train_6.csv', index_col=("property_id"))
 test_1 = pd.read_csv('test_1.csv', index_col=("property_id"))
 test_2 = pd.read_csv('test_2.csv', index_col=("property_id"))
 test_3 = pd.read_csv('test_3.csv', index_col=("Unnamed: 0"))
-test_4 = pd.read_csv('test_4.csv', index_col=("property_id"))
-test_4 = test_4.drop(columns = ["Unnamed: 0"])
+test_4 = pd.read_csv('test_4.csv', index_col=("Unnamed: 0"))
+index_col_test = test_4["property_id"]
+test_4 = test_4.drop(columns = ["property_id"])
 test_5 = pd.read_csv('test_5.csv')
 test_6 = pd.read_csv('test_6.csv', index_col=("property_id"))
 
-combine_train = pd.DataFrame()
-for i in [train_1, train_2, train_3, train_4, train_5]: # [train_1, train_2, train_3, train_4, train_5, train_6]
+combine_train = pd.DataFrame({"property_id": index_col_train})
+for i in [train_1, train_2, train_3, train_4, train_5, train_6]: # [train_1, train_2, train_3, train_4, train_5, train_6]
     i.reset_index(drop=True, inplace=True)      
-    combine_train = pd.concat([combine_train, i], axis = 1, ignore_index=True)
+    combine_train = pd.concat([combine_train, i], axis = 1)
 
-combine_test = pd.DataFrame()
-for i in [test_1, test_2, test_3, test_4, test_5]: # [train_1, train_2, train_3, train_4, train_5, train_6]
+combine_test = pd.DataFrame({"property_id": index_col_test})
+for i in [test_1, test_2, test_3, test_4, test_5, test_6]: 
     i.reset_index(drop=True, inplace=True)    
-    combine_test = pd.concat([combine_test, i], axis = 1, ignore_index=True)
+    combine_test = pd.concat([combine_test, i], axis = 1)
+
+combine_train.to_csv('combine_train.csv', header = True) 
+combine_test.to_csv('combine_test.csv', header = True) 
