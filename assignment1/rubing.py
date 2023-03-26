@@ -19,9 +19,9 @@ def process_data(df):
     for col in ['property_type', 'property_room_type']:
         df[col] = pd.Categorical(df[col]).codes
 
-    # Cluster by K=10, using latitude and longitude
+    # Cluster by K=2, using latitude and longitude
     coords = df[['property_lat', 'property_lon']]
-    kmeans = KMeans(n_clusters=10, random_state=42).fit(coords)
+    kmeans = KMeans(n_clusters=2, random_state=42).fit(coords)
     cluster_labels = kmeans.labels_
     centroid_coords = kmeans.cluster_centers_
 
@@ -44,7 +44,7 @@ def process_data(df):
 
     # Fill NA
     #df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
-    df[['property_bathrooms', 'property_bedrooms']].fillna(method="backfill")
+    df[['property_bathrooms', 'property_bedrooms']].fillna(df[['property_bathrooms', 'property_bedrooms']].mode())
 
     # Drop useless columns
     df = df.drop(columns=['property_rules', 'property_zipcode', 'property_lat', 'property_lon'], axis=1)
@@ -62,5 +62,5 @@ print(df2.head())
 print(df2.isna().sum())
 
 # Save into CSV file
-df1.to_csv('train_rubing.csv', index=False)
-df2.to_csv('test_rubing.csv', index=False)
+df1.to_csv('train_rubing1.csv', index=False)
+df2.to_csv('test_rubing1.csv', index=False)
