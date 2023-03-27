@@ -13,7 +13,7 @@ na_cols = df.isna().any()
 # 打印存在NA值的列名
 for col in na_cols[na_cols == True].index:
     print(col)
-'''
+
 
 '''
 #df.to_csv('train_cleaned.csv')
@@ -26,7 +26,7 @@ with open('df_names.txt', 'w') as f:
     for name in df_columns_quoted:
         f.write("%s\n" % name)
 
-'''
+
 
 
 '''
