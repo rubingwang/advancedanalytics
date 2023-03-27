@@ -6,7 +6,6 @@
 'property_bedrooms',
 'cluster_label',
 'centroid_distance',
-'beds',
 'Airbed',
 'Couch',
 'Futon',

@@ -28,7 +28,7 @@ y_train = df_train['target']
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.3, random_state=40)
 
 # 构建神经网络模型
-model = MLPRegressor(hidden_layer_sizes=(20,), activation='relu', solver='lbfgs')
+model = MLPRegressor(hidden_layer_sizes=(30,), activation='relu', solver='lbfgs')
 
 # 训练模型
 model.fit(X_train, y_train)
