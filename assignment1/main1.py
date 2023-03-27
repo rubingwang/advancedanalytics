@@ -24,8 +24,14 @@ min_rmse = float('inf')
 for i in range(1):
     # 从cols_feature中随机抽取20个feature训练
     features = random.sample(cols_feature, 20)
-    X_train_20 = X_train[features]
-    X_test_20 = X_test[features]
+
+    #cols_feature = []
+    X_train = df_train[cols_feature]
+    y_train = df_train['target']
+
+    # 将数据集分割成训练集和测试集
+    X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.3, random_state=40)
+
 
     # 构建神经网络模型
     model = MLPRegressor(hidden_layer_sizes=(30,), activation='relu', solver='lbfgs')
