@@ -18,7 +18,7 @@ for col in na_cols[na_cols == True].index:
 '''
 #df.to_csv('train_cleaned.csv')
 
-df = pd.read_csv('train_cleaned_filled.csv')
+df = pd.read_csv('combine_train.csv')
 #打印变量名称
 df_columns = list(df.columns)
 df_columns_quoted = ["'" + name + "'," for name in df.columns]

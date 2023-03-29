@@ -44,7 +44,8 @@ def process_data(df):
 
     # Fill NA
     #df = df.drop(df[df[['property_zipcode', 'property_bathrooms', 'property_bedrooms']].isnull().any(axis=1)].index)
-    df[['property_bathrooms', 'property_bedrooms']].fillna(df[['property_bathrooms', 'property_bedrooms']].mode())
+    df[['property_bathrooms', 'property_bedrooms']] = \
+        df[['property_bathrooms', 'property_bedrooms']].fillna(df[['property_bathrooms', 'property_bedrooms']].mode().iloc[0])
 
     # Drop useless columns
     df = df.drop(columns=['property_rules', 'property_zipcode', 'property_lat', 'property_lon'], axis=1)
@@ -53,14 +54,16 @@ def process_data(df):
 
 
 # Process data
-df1 = process_data(df1)
-df2 = process_data(df2)
+df3 = process_data(df1)
+df4 = process_data(df2)
 
-print(df1.head())
-print(df1.isna().sum())
-print(df2.head())
-print(df2.isna().sum())
+print(df3.head())
+print(df3.isna().sum())
+print(df3.dtypes)
+print(df4.head())
+print(df4.isna().sum())
+print(df3.dtypes)
 
 # Save into CSV file
-df1.to_csv('train_rubing1.csv', index=False)
-df2.to_csv('test_rubing1.csv', index=False)
+df3.to_csv('rubing_train.csv', index=False)
+df4.to_csv('rubing_test.csv', index=False)
