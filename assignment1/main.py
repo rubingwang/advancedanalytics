@@ -8,7 +8,7 @@ import joblib
 import random
 
 # 读取训练数据集
-df_train = pd.read_csv('train_cleaned_filled.csv')
+df_train = pd.read_csv('train_clean.csv')
 
 
 # 提取需要的特征和目标变量

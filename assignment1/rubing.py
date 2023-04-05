@@ -1,3 +1,5 @@
+#This file is to clean part of raw data
+
 from statistics import mean
 
 import pandas as pd
