@@ -8,46 +8,16 @@ import joblib
 import random
 
 # 读取训练数据集
-df_train = pd.read_csv('train_clean.csv')
+df_train = pd.read_csv('combine_train_target.csv')
 
-
-# 提取需要的特征和目标变量
 with open('df_names.txt', 'r') as f:
-    df_columns_quoted = f.read()
+    cols_str = f.read()
 
-# 移除最后一个逗号
-df_columns_quoted = df_columns_quoted[:-2]
-
-# 解释为 Python 代码，并赋值给变量 df_columns
-cols_feature = eval('[' + df_columns_quoted + ']')
-
-
-
-# 选取连续数据变量并标准化
-# 从训练集中选取所有的连续型变量
-continuous_cols = []
-for col in df_train[cols_feature].select_dtypes(include=['float64', 'int64']).columns:
-   if df_train[col].max() - df_train[col].min() > 10:
-       continuous_cols.append(col)
-
-continuous_cols = [col for col in continuous_cols if col != 'property_type']
-
-#continuous_cols = df_train[cols_feature].select_dtypes(include=['float64', 'int64']).columns.tolist()
-df_unstan = df_train[cols_feature].drop(continuous_cols, axis=1)
-X_train_continuous = df_train[continuous_cols]
-scaler = StandardScaler()
-X_train_continuous = scaler.fit_transform(X_train_continuous)
-X_train_continuous = pd.DataFrame(X_train_continuous, columns=continuous_cols)
-print(continuous_cols)
-
-# 将标准化后的连续数据和其他数据合并
-X_train = pd.concat([X_train_continuous, df_unstan], axis=1)
-
-
-
+cols_feature = [col.strip('"') for col in cols_str.split(',')]
+print(cols_feature)
 
 #cols_feature = []
-#X_train = df_train[cols_feature]
+X_train = df_train[cols_feature]
 y_train = df_train['target']
 
 # 将数据集分割成训练集和测试集
@@ -76,6 +46,7 @@ print("R-squared (R2) score:", r2)
 
 # 保存模型
 joblib.dump(model, 'model.pkl')
+
 
 
 
