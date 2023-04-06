@@ -10,13 +10,20 @@ import random
 # 读取训练数据集
 df_train = pd.read_csv('combine_train_target.csv')
 
-with open('df_names.txt', 'r') as f:
-    cols_str = f.read()
 
-cols_feature = [col.strip('"') for col in cols_str.split(',')]
+with open('df_names1.txt', 'r') as f:
+    cols_feature = f.read()
+
+# 用逗号分隔的字符串，每个值加上双引号
+cols_feature_quoted = ",".join(['"' + col.strip() + '"' for col in cols_feature.split(",")])
+
+# 解析为Python列表
+cols_feature = eval('[' + cols_feature_quoted + ']')
 print(cols_feature)
 
-#cols_feature = []
+
+df_train[cols_feature] = df_train[cols_feature].fillna(df_train[cols_feature].median())
+
 X_train = df_train[cols_feature]
 y_train = df_train['target']
 
@@ -24,13 +31,15 @@ y_train = df_train['target']
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.3, random_state=40)
 
 # 构建神经网络模型
-model = MLPRegressor(hidden_layer_sizes=(20,), activation='relu', solver='lbfgs')
+model = MLPRegressor(hidden_layer_sizes=(20,5), activation='relu', solver='sgd', max_iter=200)
 
 # 训练模型
 model.fit(X_train, y_train)
 
 # 在测试集上测试模型
 y_pred = model.predict(X_test)
+y_pred = np.round(y_pred).astype(int)
+
 score = model.score(X_test, y_test)
 
 # 计算预测结果的评价指标
@@ -49,28 +58,26 @@ joblib.dump(model, 'model.pkl')
 
 
 
-
-
-'''
 # 加载模型
-# model = joblib.load('model.pkl')
+model = joblib.load('model.pkl')
 
 # 读取预测数据集
-df_test = pd.read_csv('combine_test.csv')
+df_validation = pd.read_csv('combine_test.csv')
+df_validation[cols_feature] = df_validation[cols_feature].fillna(df_validation[cols_feature].median())
 
 # 提取需要的特征
-X_test = df_test[cols_feature]
+X_validation = df_validation[cols_feature]
 
 # 预测目标变量
-y_pred = model.predict(X_test)
+y_pred = model.predict(X_validation)
+y_pred = np.round(y_pred).astype(int)
 
 # 将预测结果保存到新的列中
-df_test['PRED'] = y_pred
+df_validation['PRED'] = y_pred
 
 # 更改列名
-df_test.rename(columns={'property_id': 'ID'}, inplace=True)
+df_validation.rename(columns={'property_id': 'ID'}, inplace=True)
 
 # 输出结果到csv文件
-df_test[['ID', 'PRED']].to_csv('prediction.csv', index=False)
+df_validation[['ID', 'PRED']].to_csv('prediction.csv', index=False)
 
-'''

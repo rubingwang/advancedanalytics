@@ -10,5 +10,8 @@ merged_df = pd.merge(df1, df2[['property_id','target']], on='property_id', how='
 # 连接其他列
 merged_df = merged_df.drop(df1.columns[0], axis=1)
 
+merged_df = merged_df.drop(["host_response_time", "host_response_rate","scraped_at",
+                                    "scraped_minus_review", "host_since",
+                                    "host_response_time"],  axis=1)
 merged_df.to_csv('combine_train_target.csv')
 
