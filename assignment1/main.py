@@ -8,10 +8,10 @@ import joblib
 import random
 
 # 读取训练数据集
-df_train = pd.read_csv('combine_train_target.csv')
+df_train = pd.read_csv('combine_train.csv')
+df_train = df_train.fillna(df_train.median())
 
-
-with open('df_names1.txt', 'r') as f:
+with open('df_names.txt', 'r') as f:
     cols_feature = f.read()
 
 # 用逗号分隔的字符串，每个值加上双引号
@@ -21,9 +21,6 @@ cols_feature_quoted = ",".join(['"' + col.strip() + '"' for col in cols_feature.
 cols_feature = eval('[' + cols_feature_quoted + ']')
 print(cols_feature)
 
-
-df_train[cols_feature] = df_train[cols_feature].fillna(df_train[cols_feature].median())
-
 X_train = df_train[cols_feature]
 y_train = df_train['target']
 
@@ -31,7 +28,7 @@ y_train = df_train['target']
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.3, random_state=40)
 
 # 构建神经网络模型
-model = MLPRegressor(hidden_layer_sizes=(20,5), activation='relu', solver='sgd', max_iter=200)
+model = MLPRegressor(hidden_layer_sizes=(100,5), activation='relu', solver='sgd', max_iter=200)
 
 # 训练模型
 model.fit(X_train, y_train)
@@ -63,7 +60,7 @@ model = joblib.load('model.pkl')
 
 # 读取预测数据集
 df_validation = pd.read_csv('combine_test.csv')
-df_validation[cols_feature] = df_validation[cols_feature].fillna(df_validation[cols_feature].median())
+#df_validation[cols_feature] = df_validation[cols_feature].fillna(df_validation[cols_feature].median())
 
 # 提取需要的特征
 X_validation = df_validation[cols_feature]
