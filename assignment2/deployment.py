@@ -1,4 +1,3 @@
-# pip install flask keras Pillow
 from flask import Flask, request, jsonify
 import keras
 import numpy as np
@@ -29,8 +28,10 @@ def predict():
     img_arr = np.expand_dims(img_arr, axis=0)
     # Use the pre-trained model for prediction
     pred = model.predict(img_arr)[0]
+    # Calculate the probability of Other class
+    other_prob = 1 - np.sum(pred)
     # Convert the prediction result to a dictionary and return it
-    result = {'Japanese': pred[0], 'Italian': pred[1], 'Chinese': pred[2], 'French': pred[3]}
+    result = {'Japanese': pred[0], 'Italian': pred[1], 'Chinese': pred[2], 'French': pred[3], 'Other': other_prob}
     return jsonify(result)
 
 # Run the application
