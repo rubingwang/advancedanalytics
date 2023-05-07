@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 import keras
 import numpy as np
 from PIL import Image
+from keras.saving.legacy.hdf5_format import load_model_from_hdf5
 
 # Load the pre-trained model
-model = keras.models.load_model('cuisine_model.h5')
+model = load_model_from_hdf5(('cuisine_model.h5'
 
 # Create a Flask application
 app = Flask(__name__)
