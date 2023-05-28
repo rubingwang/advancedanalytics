@@ -27,9 +27,9 @@ for col in ['property_type', 'property_room_type']:
 from sklearn.cluster import KMeans
 from geopy.distance import geodesic
 
-# Cluster by K=2, using latitude and longitude
+# Cluster by K=10, using latitude and longitude
 coords = df[['property_lat', 'property_lon']]
-kmeans = KMeans(n_clusters=2, random_state=42).fit(coords)
+kmeans = KMeans(n_clusters=10, random_state=42).fit(coords)
 cluster_labels = kmeans.labels_
 centroid_coords = kmeans.cluster_centers_
 
